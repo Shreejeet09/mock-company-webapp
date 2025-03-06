@@ -9,18 +9,13 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import TablePagination from '@material-ui/core/TablePagination';
 
-
 const styles = () => {
   return createStyles({
     body: {
         position: "relative"
     },
-    moviesContainer: {
-
-    },
-    movies: {
-
-    },
+    moviesContainer: {},
+    movies: {},
     table: {
       width: "50vw",
       margin: "auto",
@@ -76,19 +71,19 @@ class Body extends React.Component<BodyProps, BodyState> {
     this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
   }
 
-  handleChangePage(e: any, newPage: any) {
+  handleChangePage(event: unknown, newPage: number) {
     this.setState({ page: newPage });
   };
 
-  handleChangeRowsPerPage(e: any) {
-    this.setState({ rowsPerPage: parseInt(e.target.value), page: 0 })
+  handleChangeRowsPerPage(event: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ rowsPerPage: parseInt(event.target.value, 10), page: 0 });
   };
 
   render() {
     const classes = this.props.classes;
     const { products } = this.props;
-    // products.forEach(async (p) => await import(`${p.image}`));
     const { page, rowsPerPage } = this.state;
+
     return (
       <div className={classes.body}>
         <Paper>
@@ -117,15 +112,16 @@ class Body extends React.Component<BodyProps, BodyState> {
                     </TableBody>
                 </Table>
             </TableContainer>
+
+            {/* ✅ Updated TablePagination component */}
             <TablePagination
-            className={classes.pagination}
-            rowsPerPageOptions={[3, 5, 10]}
-            component="div"
-            count={products.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangePage={this.handleChangePage}
-            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+              className={classes.pagination}
+              rowsPerPageOptions={[3, 5, 10]}
+              count={products.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={this.handleChangePage}  // ✅ Fixed prop name
+              onRowsPerPageChange={this.handleChangeRowsPerPage}  // ✅ Fixed prop name
             />
         </Paper>
       </div>
